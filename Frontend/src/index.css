@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+  .padding-inline {
+    @apply px-3 sm:px-[10%];
+  }
+
+  .title2 {
+    @apply text-3xl font-semibold;
+  }
+}
