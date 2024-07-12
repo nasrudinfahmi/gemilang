@@ -2,6 +2,9 @@ import cart from "./icons/cart.svg";
 import search from "./icons/search.svg";
 import defaultAvatar from "./icons/DefaultAvatar.svg";
 import notification from "./icons/notification.svg";
+import left from "./icons/arrowLeft.svg";
+import chat from "./icons/chat.svg";
+import collapse from "./icons/collapse.svg";
 
 import banner1 from "./banner/hero-banner.webp";
 
@@ -25,6 +28,9 @@ const icons = {
   search,
   defaultAvatar,
   notification,
+  left,
+  chat,
+  collapse,
 };
 
 const heroBanner = {

@@ -1,10 +1,10 @@
 const firebaseConfig = {
-  apiKey: "AIzaSyBJbjEoHNGTnnq_r3hysNw8QnoBTOQtBGA",
-  authDomain: "gemilango.firebaseapp.com",
-  projectId: "gemilango",
-  storageBucket: "gemilango.appspot.com",
-  messagingSenderId: "805901528587",
-  appId: "1:805901528587:web:e6b00b20b44ec7702f210e",
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_PROJECT_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
 };
 
 export { firebaseConfig };
