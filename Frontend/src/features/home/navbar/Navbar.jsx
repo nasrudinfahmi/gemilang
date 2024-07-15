@@ -17,6 +17,8 @@ function Navbar() {
     return () => unsubscribe();
   }, []);
 
+  const photoProfile = auth.currentUser?.photoURL || icons.defaultAvatar
+
   return (
     <nav className="border padding-inline pt-1 pb-2 min-[600px]:pt-3">
       <section className="flex justify-between items-center gap-5 min-[600px]:gap-8">
@@ -49,7 +51,7 @@ function Navbar() {
           </Link>
           <div className="relative">
             <Link className="peer">
-              <img src={icons.defaultAvatar} alt="avatar icon" width={28} height={28} />
+              <img src={photoProfile} alt="avatar icon" width={28} height={28} />
             </Link>
             <div className="hidden peer-focus:flex peer-hover:flex hover:flex flex-col gap-1 h-max absolute -right-4 top-full border bg-white p-3 rounded-lg shadow-lg">
               {isLogin ? (

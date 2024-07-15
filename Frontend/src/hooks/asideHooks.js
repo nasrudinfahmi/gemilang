@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import { ProfileContext } from "../context/ProfileContext";
+import { AsideContext } from "../context/AsideContext";
 
 function useToggleAside() {
   const { asideProfileActive, setAsideProfileActive } =
-    useContext(ProfileContext);
+    useContext(AsideContext);
   return { asideProfileActive, setAsideProfileActive };
 }
 

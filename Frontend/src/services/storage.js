@@ -5,6 +5,7 @@ import {
   ref,
   uploadBytes,
 } from "firebase/storage";
+import { getFileNameFromUrl } from "../utils/utils";
 
 async function uploadFile(path, file) {
   const storageRef = ref(storage, path);
@@ -16,6 +17,7 @@ async function uploadFile(path, file) {
 
 async function deleteFile(path, fileName) {
   try {
+    if (!fileName) return;
     const storageRef = ref(storage, `${path}/${fileName}`);
 
     await deleteObject(storageRef);
@@ -25,4 +27,18 @@ async function deleteFile(path, fileName) {
   }
 }
 
-export { uploadFile, deleteFile };
+async function saveImg({ path, fileName, file, urlToDelete }) {
+  if (!file) return null;
+
+  if (urlToDelete) {
+    const fileName = getFileNameFromUrl(urlToDelete)?.split("/")[1];
+    await deleteFile(path, fileName);
+  }
+
+  const pathUrl = `${path}/${fileName}`;
+  const fileUrl = await uploadFile(pathUrl, file);
+
+  return fileUrl;
+}
+
+export { uploadFile, deleteFile, saveImg };

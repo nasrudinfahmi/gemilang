@@ -1,10 +1,16 @@
-import { icons } from "../../../../assets"
-import useResizeWindow from "../../../../hooks/useResizeWindow"
-import { useToggleAside } from "../../hooks/profileHooks"
+import PropTypes from 'prop-types'
+import { icons } from "../../assets"
+import useResizeWindow from "../../hooks/useResizeWindow"
+import { useToggleAside } from '../../hooks/asideHooks'
+import { usePhotoProfile } from '../../hooks/usePhotoProfile'
+import { auth } from '../../lib/firebase/init'
 
-function Navbar() {
+function NavbarProfile({ title }) {
   const { windowWidth } = useResizeWindow()
   const { setAsideProfileActive } = useToggleAside()
+  const { photoPofileUrl } = usePhotoProfile()
+
+  const photoProfile = photoPofileUrl || auth.currentUser?.photoURL || icons.defaultAvatar
 
   const openSidebar = () => {
     setAsideProfileActive(false)
@@ -19,7 +25,7 @@ function Navbar() {
               <img src={icons.collapse} alt="buka sidebar" width={21} height={21} className="rotate-180" />
             </button>
           )}
-          <h1 className="text-2xl lg:text-3xl">Profil Saya</h1>
+          <h1 className="text-2xl lg:text-3xl">{title}</h1>
         </div>
 
         <div className="flex items-center gap-3 sm:gap-4">
@@ -30,7 +36,12 @@ function Navbar() {
             <img src={icons.chat} alt="chat ikon" width={24} height={24} />
           </button>
           <button type="button" aria-label="Profil Saya" title="Profil Saya">
-            <img src={icons.defaultAvatar} alt="Photo Profile" width={24} height={24} />
+            <img
+              width={24}
+              height={24}
+              alt="Photo Profile"
+              src={photoProfile}
+            />
           </button>
         </div>
       </nav>
@@ -38,4 +49,8 @@ function Navbar() {
   )
 }
 
-export default Navbar
+NavbarProfile.propTypes = {
+  title: PropTypes.string.isRequired,
+}
+
+export default NavbarProfile

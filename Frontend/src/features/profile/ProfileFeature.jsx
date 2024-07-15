@@ -1,12 +1,12 @@
-import Aside from "./components/aside/Aside"
-import FormSection from "./components/mainSection/FormSection"
-import Navbar from "./components/Navbar/Navbar"
+import Aside from "../../components/aside/asideProfile/AsideProfile"
+import NavbarProfile from "../../components/navbar/NavbarProfile"
+import FormSection from "../../components/profilesSection/FormSection"
 
 function ProfileFeature() {
   return (
     <>
       <header>
-        <Navbar />
+        <NavbarProfile title="Profil Saya" />
       </header>
       <main className="pb-10">
         <Aside />

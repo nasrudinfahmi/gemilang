@@ -1,4 +1,11 @@
-import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../lib/firebase/init";
 
 async function readData(coll, docId) {
@@ -38,4 +45,13 @@ async function setData(path, data) {
   }
 }
 
-export { readData, readDatas, setData };
+async function updateData(path, id, newData) {
+  try {
+    const dataRef = doc(db, path, id);
+    await updateDoc(dataRef, newData);
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+export { readData, readDatas, setData, updateData };

@@ -5,7 +5,7 @@ const menusAside = [
   },
   {
     title: "Mulai Jualan",
-    href: "#",
+    href: "/profile/seller",
   },
   {
     title: "Pesanan Saya",

@@ -1,6 +1,7 @@
 import cart from "./icons/cart.svg";
 import search from "./icons/search.svg";
 import defaultAvatar from "./icons/DefaultAvatar.svg";
+import defaultAvatar2 from "./icons/defaultAvatar2.svg";
 import notification from "./icons/notification.svg";
 import left from "./icons/arrowLeft.svg";
 import chat from "./icons/chat.svg";
@@ -27,6 +28,7 @@ const icons = {
   cart,
   search,
   defaultAvatar,
+  defaultAvatar2,
   notification,
   left,
   chat,

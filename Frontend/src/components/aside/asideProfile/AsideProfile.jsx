@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom"
 import Menus from "./Menus"
-import { useToggleAside } from "../../hooks/profileHooks"
-import { icons } from "../../../../assets"
-import useResizeWindow from "../../../../hooks/useResizeWindow"
+import { useToggleAside } from "../../../hooks/asideHooks"
+import { icons } from "../../../assets"
+import useResizeWindow from "../../../hooks/useResizeWindow"
 
 function Aside() {
   const { windowWidth } = useResizeWindow()
@@ -15,7 +15,7 @@ function Aside() {
   }
 
   return (
-    <aside className={`${active} flex flex-col gap-3 fixed left-0 top-0 w-60 px-4 py-6 h-screen border bg-white transition-transform`}>
+    <aside className={`${active} z-[999999] flex flex-col gap-3 fixed left-0 top-0 w-60 px-4 py-6 h-screen border bg-white transition-transform`}>
       <div className="flex items-center justify-between">
         <Link to="/" className="w-max" onClick={closeSidebar}>
           <h1 className="text-2xl lg:text-3xl font-medium">Gemilang</h1>

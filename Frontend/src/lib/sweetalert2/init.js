@@ -12,4 +12,20 @@ const Toast = Swal.mixin({
   },
 });
 
-export { Toast };
+const loadingToast = (icon, title, timer) => {
+  const iconLoading = icon || "info";
+  const titleLoading = title || "Loading";
+  const timerLoading = timer || 3000;
+
+  return Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: timerLoading,
+    timerProgressBar: true,
+    title: titleLoading,
+    icon: iconLoading,
+  });
+};
+
+export { Toast, loadingToast };
