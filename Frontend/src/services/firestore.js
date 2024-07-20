@@ -3,8 +3,10 @@ import {
   doc,
   getDoc,
   getDocs,
+  query,
   setDoc,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { db } from "../lib/firebase/init";
 
@@ -54,4 +56,28 @@ async function updateData(path, id, newData) {
   }
 }
 
-export { readData, readDatas, setData, updateData };
+async function getProductsBySellerId(sellerId) {
+  try {
+    // Referensi ke koleksi 'products'
+    const productsRef = collection(db, "products");
+
+    // Membuat query untuk mendapatkan produk dengan idSeller tertentu
+    const q = query(productsRef, where("seller.idSeller", "==", sellerId));
+
+    // Menjalankan query dan mendapatkan snapshot dokumen
+    const querySnapshot = await getDocs(q);
+
+    // Mengumpulkan data produk dari snapshot dokumen
+    const products = [];
+    querySnapshot.forEach((doc) => {
+      products.push({ ...doc.data(), id: doc.id });
+    });
+
+    // Mengembalikan data produk
+    return products;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+export { readData, readDatas, setData, updateData, getProductsBySellerId };

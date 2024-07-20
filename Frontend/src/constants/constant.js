@@ -73,4 +73,66 @@ const listOfCategories = [
   },
 ];
 
-export { listOfCategories };
+const menusAsideProfile = [
+  {
+    title: "Profil Saya",
+    href: "/profile/me",
+  },
+  {
+    title: "Mulai Jualan",
+    href: "/profile/seller",
+  },
+  {
+    title: "Pesanan Saya",
+    href: "#",
+  },
+  {
+    title: "Keranjang Belanja",
+    href: "#",
+  },
+  {
+    title: "Pesan",
+    href: "#",
+  },
+  {
+    title: "Notifikasi",
+    href: "#",
+  },
+  {
+    title: "Hapus Akun",
+    href: "#",
+  },
+  {
+    title: "Keluar",
+    href: "#",
+  },
+];
+
+const menusAsideDashboard = [
+  {
+    title: "Dashboard",
+    href: "/dashboard",
+  },
+  {
+    title: "Produk",
+    href: "/dashboard/products",
+  },
+  {
+    title: "Notifikasi",
+    href: "#",
+  },
+  {
+    title: "Pesan",
+    href: "#",
+  },
+  {
+    title: "Pengaturan",
+    href: "#",
+  },
+  {
+    title: "Hapus Toko",
+    href: "#",
+  },
+];
+
+export { listOfCategories, menusAsideProfile, menusAsideDashboard };

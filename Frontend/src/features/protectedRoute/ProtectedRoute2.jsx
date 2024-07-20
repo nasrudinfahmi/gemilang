@@ -1,24 +1,31 @@
 import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { useUser } from "../../hooks/useUser";
+import { readData } from "../../services/firestore";
+import { auth } from "../../lib/firebase/init";
 
 function ProtectedRoute2() {
-  const { user, loading: userLoading } = useUser();
   const [isSeller, setIsSeller] = useState(false);
   const [loading, setLoading] = useState(true)
+  const idUser = auth.currentUser.uid
 
   useEffect(() => {
-    if (!userLoading) {
-      const seller = user?.role === 'seller' && user?.idSeller;
-      setIsSeller(seller);
-    }
+    (async function fetchUser() {
+      try {
+        const response = await readData("user", idUser);
 
-    if (user) setLoading(false)
-  }, [user, userLoading]);
+        const seller = response?.role === 'seller' && !!response?.idSeller;
+        setIsSeller(seller);
 
-  if (userLoading || loading) return <h1>Loading ...</h1>;
+        setLoading(false)
+      } catch (error) {
+        setLoading(false)
+      }
+    })()
+  }, [idUser]);
 
-  return isSeller ? <Outlet /> : <Navigate to="/" />;
+  if (loading) return <h1>Loading ...</h1>;
+
+  return isSeller ? <Outlet /> : <Navigate to="/profile/seller" />;
 }
 
 export default ProtectedRoute2;

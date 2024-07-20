@@ -117,11 +117,6 @@ function FormSection() {
   return (
     <section className="w-full lg:w-3/4 xl:w-2/3 flex flex-col gap-6 mt-8 px-6 sm:pl-12 md:pl-72 py-2 transition-transform">
       <div className="flex items-center gap-4 mb-6">
-        <button onClick={async () => {
-          await updateProfile(auth.currentUser, { photoURL: "" })
-        }}>
-          hapus current user
-        </button>
         <img src={photoPofile.blob || icons.defaultAvatar} alt="photo profile" width={64} height={64} className="rounded-full overflow-hidden shadow-sm border border-slate-100 object-cover object-center w-16 h-16 aspect-square" />
 
         <div className="flex min-[500px]:items-center max-[500px]:flex-col max-[500px]:gap-1.5 gap-4">

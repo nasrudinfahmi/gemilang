@@ -4,6 +4,8 @@ import { AuthProvider } from "./features/authentication/context/AuthContext"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { AsideProvider } from "./context/AsideContext"
 import { PhotoProfileProvider } from "./context/PhotoProfileContext"
+import { SellerProvider } from "./context/SellerContext"
+import { UserProvider } from "./context/UserContext"
 
 function App() {
   const queryClient = new QueryClient()
@@ -11,11 +13,15 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <AsideProvider>
-          <PhotoProfileProvider>
-            <RouterProvider router={router} />
-          </PhotoProfileProvider>
-        </AsideProvider>
+        <UserProvider>
+          <AsideProvider>
+            <PhotoProfileProvider>
+              <SellerProvider>
+                <RouterProvider router={router} />
+              </SellerProvider>
+            </PhotoProfileProvider>
+          </AsideProvider>
+        </UserProvider>
       </AuthProvider>
     </QueryClientProvider>
   )

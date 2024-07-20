@@ -54,7 +54,7 @@ function SellerRegister() {
       file: photoPofile.file,
     })
 
-    await setData(`seller/${currentUser.uid}`, {
+    await setData(`seller/${id}`, {
       idSeller: id,
       storeName: seller.storeName,
       phoneNumber: seller.phoneNumber,

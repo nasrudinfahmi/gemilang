@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-function Input1({ type = "text", id, name, readOnly = false, spellCheck = false, autoComplete = "off", label = "", labelClassName = "", className = "", value = "", onChange }) {
+function Input1({ type = "text", title = "", required = false, id, name, readOnly = false, spellCheck = false, autoComplete = "off", label = "", labelClassName = "", className = "", value = "", onChange, ...props }) {
   return (
     <label htmlFor={id} className={`flex flex-col gap-1 ${labelClassName}`}>
       {label && <span>{label}</span>}
@@ -8,11 +8,14 @@ function Input1({ type = "text", id, name, readOnly = false, spellCheck = false,
         type={type}
         name={name}
         id={id}
+        title={title}
         spellCheck={spellCheck}
         autoComplete={autoComplete}
         readOnly={readOnly}
         value={value}
         onChange={onChange}
+        required={required}
+        {...props}
         className={`border outline-none py-1.5 px-3 rounded-md sm:text-lg ${className}`}
       />
     </label>
@@ -21,6 +24,8 @@ function Input1({ type = "text", id, name, readOnly = false, spellCheck = false,
 
 Input1.propTypes = {
   type: PropTypes.string,
+  title: PropTypes.string,
+  required: PropTypes.bool,
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   spellCheck: PropTypes.bool,

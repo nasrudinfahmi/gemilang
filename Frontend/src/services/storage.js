@@ -8,11 +8,15 @@ import {
 import { getFileNameFromUrl } from "../utils/utils";
 
 async function uploadFile(path, file) {
-  const storageRef = ref(storage, path);
-  const snapshot = await uploadBytes(storageRef, file);
+  try {
+    const storageRef = ref(storage, path);
+    const snapshot = await uploadBytes(storageRef, file);
 
-  const fileUrl = await getDownloadURL(ref(storage, snapshot.ref.fullPath));
-  return fileUrl;
+    const fileUrl = await getDownloadURL(ref(storage, snapshot.ref.fullPath));
+    return fileUrl;
+  } catch (error) {
+    throw new Error(error.message);
+  }
 }
 
 async function deleteFile(path, fileName) {

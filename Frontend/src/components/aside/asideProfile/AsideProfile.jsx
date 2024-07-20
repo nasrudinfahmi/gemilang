@@ -1,10 +1,10 @@
+import PropTypes from 'prop-types'
 import { Link } from "react-router-dom"
-import Menus from "./Menus"
 import { useToggleAside } from "../../../hooks/asideHooks"
 import { icons } from "../../../assets"
 import useResizeWindow from "../../../hooks/useResizeWindow"
 
-function Aside() {
+function Aside({ children }) {
   const { windowWidth } = useResizeWindow()
   const { asideProfileActive, setAsideProfileActive } = useToggleAside()
 
@@ -28,9 +28,13 @@ function Aside() {
         )}
       </div>
 
-      <Menus />
+      {children}
     </aside>
   )
+}
+
+Aside.propTypes = {
+  children: PropTypes.node.isRequired,
 }
 
 export default Aside

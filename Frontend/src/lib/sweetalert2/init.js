@@ -28,4 +28,22 @@ const loadingToast = (icon, title, timer) => {
   });
 };
 
-export { Toast, loadingToast };
+const confirmToast = ({ title, text = "", confText, cancelText }) => {
+  return {
+    title: title,
+    text: text,
+    customClass: {
+      container: "confirm-container-swap",
+    },
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: confText,
+    cancelButtonText: cancelText,
+    confirmButtonAriaLabel: confText,
+    cancelButtonAriaLabel: cancelText,
+  };
+};
+
+export { Toast, loadingToast, confirmToast };

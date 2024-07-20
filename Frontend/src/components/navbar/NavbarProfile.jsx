@@ -5,12 +5,13 @@ import { useToggleAside } from '../../hooks/asideHooks'
 import { usePhotoProfile } from '../../hooks/usePhotoProfile'
 import { auth } from '../../lib/firebase/init'
 
-function NavbarProfile({ title }) {
+function NavbarProfile({ title, icon }) {
   const { windowWidth } = useResizeWindow()
   const { setAsideProfileActive } = useToggleAside()
   const { photoPofileUrl } = usePhotoProfile()
 
-  const photoProfile = photoPofileUrl || auth.currentUser?.photoURL || icons.defaultAvatar
+  const photoProfile =
+    icon || photoPofileUrl || auth.currentUser?.photoURL || icons.defaultAvatar
 
   const openSidebar = () => {
     setAsideProfileActive(false)
@@ -51,6 +52,7 @@ function NavbarProfile({ title }) {
 
 NavbarProfile.propTypes = {
   title: PropTypes.string.isRequired,
+  icon: PropTypes.string,
 }
 
 export default NavbarProfile
