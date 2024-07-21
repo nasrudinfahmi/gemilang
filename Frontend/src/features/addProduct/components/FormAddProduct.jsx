@@ -11,7 +11,7 @@ import { uploadFile } from "../../../services/storage";
 import { useNavigate } from "react-router-dom";
 
 function FormAddProduct() {
-  const editor = import.meta.env.VITE_EDITOR_KEY
+  const editor = 'yra55kp9qgg0gpllq8rxbgmb5iwxnxv34c1axq49finj4xfv'
   const [values, setValues] = useState({ status: 'Ready' })
   const editorRef = useRef(null);
   const { seller } = useContext(SellerContext)

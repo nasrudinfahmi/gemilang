@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { createBlob } from '../../utils/utils'
 import { Toast } from '../../lib/sweetalert2/init'
 
-function FormProduct({ values, setValues, handleChangeInput, handleImgProduct, handleSubmit, loading, defaultDescription, editorRef, setProductEdit, saveImg }) {
+function FormProduct({ values, setValues, handleChangeInput, handleImgProduct, handleSubmit, loading, defaultDescription, editorProductRef, setProductEdit, saveImg }) {
   const editor = import.meta.env.VITE_EDITOR_KEY
 
   const [file, setFile] = useState({ thumbnailProduct: values.thumbnailProduct, imgs: values.imgs.length ? values.imgs : null })
@@ -187,7 +187,7 @@ function FormProduct({ values, setValues, handleChangeInput, handleImgProduct, h
           <span className="inline-block pl-0.5">Deskripsi</span>
           <Editor
             apiKey={editor}
-            onInit={(_evt, editor) => editorRef.current = editor}
+            onInit={(_evt, editor) => editorProductRef.current = editor}
             initialValue={defaultDescription}
             init={{
               menubar: 'edit format',
@@ -218,7 +218,7 @@ FormProduct.propTypes = {
   handleImgProduct: PropTypes.func,
   loading: PropTypes.bool,
   defaultDescription: PropTypes.string,
-  editorRef: PropTypes.object,
+  editorProductRef: PropTypes.object,
   setProductEdit: PropTypes.func,
   saveImg: PropTypes.func,
 }

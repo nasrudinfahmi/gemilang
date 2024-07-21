@@ -167,7 +167,7 @@ function DashboardProductsFeature() {
             <FormProduct
               values={productEdit}
               setValues={setProductEdit}
-              editorRef={editorRef}
+              editorProductRef={editorRef}
               defaultDescription={productEdit.description || ""}
               setProductEdit={setProductEdit}
               handleChangeInput={handleChangeInput}
