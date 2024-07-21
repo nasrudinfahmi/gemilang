@@ -7,7 +7,7 @@ import { createBlob } from '../../utils/utils'
 import { Toast } from '../../lib/sweetalert2/init'
 
 function FormProduct({ values, setValues, handleChangeInput, handleImgProduct, handleSubmit, loading, defaultDescription, editorProductRef, setProductEdit, saveImg }) {
-  const editor = import.meta.env.VITE_EDITOR_KEY
+  const editor = 'yra55kp9qgg0gpllq8rxbgmb5iwxnxv34c1axq49finj4xfv'
 
   const [file, setFile] = useState({ thumbnailProduct: values.thumbnailProduct, imgs: values.imgs.length ? values.imgs : null })
 
