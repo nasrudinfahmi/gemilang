@@ -1,5 +1,6 @@
 import {
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -80,4 +81,19 @@ async function getProductsBySellerId(sellerId) {
   }
 }
 
-export { readData, readDatas, setData, updateData, getProductsBySellerId };
+async function deleteData(path) {
+  try {
+    await deleteDoc(doc(db, path));
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+export {
+  readData,
+  readDatas,
+  setData,
+  updateData,
+  getProductsBySellerId,
+  deleteData,
+};

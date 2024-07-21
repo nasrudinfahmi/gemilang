@@ -21,4 +21,10 @@ function generateRandomId(length = 17) {
   return result;
 }
 
-export { getFileNameFromUrl, generateRandomId };
+function createBlob(file) {
+  if (!file) return;
+  const blob = URL.createObjectURL(file);
+  return blob;
+}
+
+export { getFileNameFromUrl, generateRandomId, createBlob };

@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react';
+import { deleteFile, deleteFiles } from '../../../services/storage';
+import { getFileNameFromUrl } from '../../../utils/utils';
+import { deleteData } from '../../../services/firestore';
+import { confirmToast } from '../../../lib/sweetalert2/init';
+import Swal from 'sweetalert2';
 
-function TableProduct({ value, datas }) {
-  // const products = useMemo(() => datas, [datas])
-
+function TableProduct({ value, datas, setProductEdit }) {
   const [data, setData] = useState(datas)
 
   useEffect(() => {
@@ -15,6 +18,34 @@ function TableProduct({ value, datas }) {
       setData(datas)
     }
   }, [value, datas])
+
+  const handleDelete = async product => {
+    try {
+      const { isConfirmed } = await Swal.fire(confirmToast({
+        title: "Yakin Ingin Menghapus Produk?",
+        text: "Data Produk Tidak Bisa Dipulihkan!",
+        confText: "Hapus",
+        cancelText: "Batal",
+      }))
+
+      if (!isConfirmed) return;
+
+      const thumbnailProduct = product.thumbnailProduct
+      const thumbnailName = getFileNameFromUrl(thumbnailProduct)?.split("/")[1]
+      const imgs = product.imgs
+
+      await deleteFile("products", thumbnailName)
+      await deleteFiles("products", imgs)
+      await deleteData(`products/${product.idProduct}`)
+
+      setData(prev => {
+        const newDatas = prev.filter(data => data.idProduct !== product.idProduct)
+        return newDatas
+      })
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
 
   return (
     <div className="overflow-x-auto mt-9 rounded-md">
@@ -46,8 +77,8 @@ function TableProduct({ value, datas }) {
               <td className="py-2 px-4 border-b ">
                 <div className='flex justify-evenly items-center gap-2'>
                   <button type="button" title="Lihat" className='px-3 py-1 rounded-md bg-green-300 hover:bg-green-500'>Lihat</button>
-                  <button type="button" title="Edit" className='px-3 py-1 rounded-md bg-orange-300 hover:bg-orange-500'>Edit</button>
-                  <button type="button" title="Hapus" className='px-3 py-1 rounded-md bg-red-400 hover:bg-red-600'>Hapus</button>
+                  <button type="button" title="Edit" className='px-3 py-1 rounded-md bg-orange-300 hover:bg-orange-500' onClick={() => setProductEdit(product)}>Edit</button>
+                  <button type="button" title="Hapus" className='px-3 py-1 rounded-md bg-red-400 hover:bg-red-600' onClick={() => handleDelete(product)}>Hapus</button>
                 </div>
               </td>
             </tr>
@@ -61,6 +92,7 @@ function TableProduct({ value, datas }) {
 TableProduct.propTypes = {
   value: PropTypes.string,
   datas: PropTypes.array,
+  setProductEdit: PropTypes.func,
 }
 
 export default TableProduct

@@ -204,7 +204,7 @@ function FormAddProduct() {
         <div className="flex flex-col gap-1">
           <span className="inline-block pl-0.5">Deskripsi</span>
           <Editor
-            apiKey='yra55kp9qgg0gpllq8rxbgmb5iwxnxv34c1axq49finj4xfv'
+            apiKey={import.meta.env.VITE_EDITOR_KEY}
             onInit={(_evt, editor) => editorRef.current = editor}
             init={{
               menubar: 'edit format',
