@@ -7,6 +7,8 @@ import { createBlob } from '../../utils/utils'
 import { Toast } from '../../lib/sweetalert2/init'
 
 function FormProduct({ values, setValues, handleChangeInput, handleImgProduct, handleSubmit, loading, defaultDescription, editorRef, setProductEdit, saveImg }) {
+  const editor = import.meta.env.VITE_EDITOR_KEY
+
   const [file, setFile] = useState({ thumbnailProduct: values.thumbnailProduct, imgs: values.imgs.length ? values.imgs : null })
 
   const handleImg = e => {
@@ -184,7 +186,7 @@ function FormProduct({ values, setValues, handleChangeInput, handleImgProduct, h
         <div className="flex flex-col gap-1">
           <span className="inline-block pl-0.5">Deskripsi</span>
           <Editor
-            apiKey={import.meta.env.VITE_EDITOR_KEY}
+            apiKey={editor}
             onInit={(_evt, editor) => editorRef.current = editor}
             initialValue={defaultDescription}
             init={{

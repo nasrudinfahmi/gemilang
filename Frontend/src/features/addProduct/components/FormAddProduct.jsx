@@ -11,6 +11,7 @@ import { uploadFile } from "../../../services/storage";
 import { useNavigate } from "react-router-dom";
 
 function FormAddProduct() {
+  const editor = import.meta.env.VITE_EDITOR_KEY
   const [values, setValues] = useState({ status: 'Ready' })
   const editorRef = useRef(null);
   const { seller } = useContext(SellerContext)
@@ -204,7 +205,7 @@ function FormAddProduct() {
         <div className="flex flex-col gap-1">
           <span className="inline-block pl-0.5">Deskripsi</span>
           <Editor
-            apiKey={import.meta.env.VITE_EDITOR_KEY}
+            apiKey={editor}
             onInit={(_evt, editor) => editorRef.current = editor}
             init={{
               menubar: 'edit format',
