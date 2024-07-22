@@ -115,6 +115,25 @@ function FormAddProduct() {
           onChange={handleChange}
           required
         />
+        <Input1
+          id="price"
+          type="number"
+          name="price"
+          label="Harga"
+          title="Harga Produk"
+          value={values.price}
+          onChange={handleChange}
+          required
+        />
+        <Input1
+          id="category"
+          name="category"
+          label="Kategori"
+          title="Kategori Produk"
+          value={values.category}
+          onChange={handleChange}
+          required
+        />
         <label htmlFor="thumbnailProduct" className="flex flex-col gap-1">
           <span>Thumbnail Produk</span>
           <input type="file"

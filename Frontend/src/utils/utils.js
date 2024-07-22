@@ -27,4 +27,14 @@ function createBlob(file) {
   return blob;
 }
 
-export { getFileNameFromUrl, generateRandomId, createBlob };
+function IDRformatter(price) {
+  const formatter = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  });
+
+  return formatter.format(Number(price));
+}
+
+export { getFileNameFromUrl, generateRandomId, createBlob, IDRformatter };

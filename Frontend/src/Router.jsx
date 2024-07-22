@@ -9,10 +9,13 @@ import ProtectedRoute2 from './features/protectedRoute/ProtectedRoute2'
 import DashboardProductsPage from './pages/DashboardProductsPage'
 import AddProductPage from './pages/AddProductPage'
 import SellerRegisterPage from './pages/SellerRegisterPage'
+import DetailProductPage from './pages/DetailProductPage'
+import NotfoundPage from './pages/NotfoundPage'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
+      <Route path='*' Component={NotfoundPage} />
       <Route path='/' Component={HomePage} />
       <Route path='auth'>
         <Route path='login' Component={LoginPage} />
@@ -28,6 +31,9 @@ const router = createBrowserRouter(
           <Route path='dashboard/products' Component={DashboardProductsPage} />
           <Route path='dashboard/products/add' Component={AddProductPage} />
         </Route>
+      </Route>
+      <Route Component={ProtectedRoute}>
+        <Route path='product/:idProduct' Component={DetailProductPage} />
       </Route>
     </>
   )

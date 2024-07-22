@@ -71,6 +71,25 @@ function FormProduct({ values, setValues, handleChangeInput, handleImgProduct, h
           onChange={handleChangeInput}
           required
         />
+        <Input1
+          id="price"
+          type="number"
+          name="price"
+          label="Harga"
+          title="Harga Produk"
+          value={values.price}
+          onChange={handleChangeInput}
+          required
+        />
+        <Input1
+          id="category"
+          name="category"
+          label="Kategori"
+          title="Kategori Produk"
+          value={values.category}
+          onChange={handleChangeInput}
+          required
+        />
         <div className='flex flex-col gap-5 lg:flex-row'>
           <div>
             <img src={file.thumbnailProduct}
