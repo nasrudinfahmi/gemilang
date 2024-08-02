@@ -6,6 +6,8 @@ import notification from "./icons/notification.svg";
 import left from "./icons/arrowLeft.svg";
 import chat from "./icons/chat.svg";
 import collapse from "./icons/collapse.svg";
+import minus from "./icons/minus.svg";
+import plus from "./icons/plus.svg";
 
 import banner1 from "./banner/hero-banner.webp";
 
@@ -33,6 +35,8 @@ const icons = {
   left,
   chat,
   collapse,
+  minus,
+  plus,
 };
 
 const heroBanner = {

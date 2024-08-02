@@ -89,6 +89,46 @@ async function deleteData(path) {
   }
 }
 
+async function getCartProduct({ idProduct, idUser }) {
+  try {
+    const cartRef = collection(db, "carts");
+    const q = query(
+      cartRef,
+      where("idUser", "==", idUser),
+      where("idProduct", "==", idProduct)
+    );
+    const querySnapshot = await getDocs(q);
+
+    let cartProduct = null;
+    querySnapshot.forEach((doc) => {
+      cartProduct = { ...doc.data(), id: doc.id };
+    });
+
+    return cartProduct;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+async function getCarts(idUser) {
+  try {
+    const cartRef = collection(db, "carts");
+    const q = query(cartRef, where("idUser", "==", idUser));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) return [];
+
+    let cartProduct = [];
+    querySnapshot.forEach((doc) => {
+      cartProduct.push({ ...doc.data(), id: doc.id });
+    });
+
+    return cartProduct;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
 export {
   readData,
   readDatas,
@@ -96,4 +136,6 @@ export {
   updateData,
   getProductsBySellerId,
   deleteData,
+  getCartProduct,
+  getCarts,
 };

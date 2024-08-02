@@ -19,7 +19,7 @@ function Navbar() {
           <img src={icons.left} alt="ikon kembali" width={21} height={21} />
         </Link>
 
-        <h1 className="font-medium text-lg sm:text-xl">Detail Produk</h1>
+        <h1 className="font-medium text-lg sm:text-xl">Keranjang Belanja</h1>
       </div>
 
       <div className="flex gap-3 lg:gap-5">
@@ -35,10 +35,10 @@ function Navbar() {
           <Link className="peer" title="Profil" aria-label="Profil">
             <img src={photoProfile} alt="avatar icon" width={28} height={28} className="rounded-full overflow-hidden" />
           </Link>
-          <div className="hidden peer-focus:flex peer-hover:flex hover:flex flex-col gap-1 h-max absolute -right-4 top-full border bg-white p-3 rounded-lg shadow-lg">
+          <div className="hidden peer-focus:flex peer-hover:flex hover:flex flex-col gap-1 h-max absolute -right-4 top-full border bg-white p-3 rounded-lg shadow-lg z-[999]">
             <Link to="/profile/me" title="Profil Saya" aria-label="profil" className="px-4 py-1.5 w-32 rounded-md leading-tight bg-white hover:outline outline-1 outline-slate-200 hover:bg-blue-50 transition-colors">Profil</Link>
-            <Link title="pesanan" aria-label="Pesanan" className="px-4 py-1.5 w-32 rounded-md leading-tight bg-white hover:outline outline-1 outline-slate-200 hover:bg-blue-50 transition-colors">Pesanan</Link>
-            <Link title="notifikasi" aria-label="Notifikasi" className="px-4 py-1.5 w-32 rounded-md leading-tight bg-white hover:outline outline-1 outline-slate-200 hover:bg-blue-50 transition-colors">Notifikasi</Link>
+            <Link title="Pesanan" aria-label="pesanan" className="px-4 py-1.5 w-32 rounded-md leading-tight bg-white hover:outline outline-1 outline-slate-200 hover:bg-blue-50 transition-colors">Pesanan</Link>
+            <Link title="Notifikasi" aria-label="notifikasi" className="px-4 py-1.5 w-32 rounded-md leading-tight bg-white hover:outline outline-1 outline-slate-200 hover:bg-blue-50 transition-colors">Notifikasi</Link>
             <button type="button" onClick={logout} title="keluar" aria-label="keluar" className="text-left px-4 py-1.5 w-32 rounded-md leading-tight bg-white hover:outline outline-1 outline-red-200 hover:bg-red-100 transition-colors">Keluar</button>
           </div>
         </div>

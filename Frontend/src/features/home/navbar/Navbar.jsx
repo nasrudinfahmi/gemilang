@@ -42,23 +42,23 @@ function Navbar() {
 
         <div className="flex gap-3 lg:gap-5">
           {windowWidth > 340 && (
-            <Link>
+            <Link title="Notifikasi" aria-label="Notifikasi">
               <img src={icons.notification} alt="notifikasi icon" width={28} height={28} />
             </Link>
           )}
-          <Link>
+          <Link to="/cart" title="Keranjang Belanja" aria-label="keranjang belanja">
             <img src={icons.cart} alt="cart icon" width={28} height={28} />
           </Link>
           <div className="relative">
-            <Link className="peer">
-              <img src={photoProfile} alt="avatar icon" width={28} height={28} />
+            <Link className="peer" title="Profil" aria-label="Profil">
+              <img src={photoProfile} alt="avatar icon" width={28} height={28} className="rounded-full overflow-hidden" />
             </Link>
             <div className="hidden peer-focus:flex peer-hover:flex hover:flex flex-col gap-1 h-max absolute -right-4 top-full border bg-white p-3 rounded-lg shadow-lg">
               {isLogin ? (
                 <>
-                  <Link to="/profile/me" title="profil" aria-label="profil" className="px-4 py-1.5 w-32 rounded-md leading-tight bg-white hover:outline outline-1 outline-slate-200 hover:bg-blue-50 transition-colors">Profil</Link>
-                  <Link title="pesanan" aria-label="pesanan" className="px-4 py-1.5 w-32 rounded-md leading-tight bg-white hover:outline outline-1 outline-slate-200 hover:bg-blue-50 transition-colors">Pesanan</Link>
-                  <Link title="notifikasi" aria-label="notifikasi" className="px-4 py-1.5 w-32 rounded-md leading-tight bg-white hover:outline outline-1 outline-slate-200 hover:bg-blue-50 transition-colors">Notifikasi</Link>
+                  <Link to="/profile/me" title="Profil Saya" aria-label="profil" className="px-4 py-1.5 w-32 rounded-md leading-tight bg-white hover:outline outline-1 outline-slate-200 hover:bg-blue-50 transition-colors">Profil</Link>
+                  <Link title="pesanan" aria-label="Pesanan" className="px-4 py-1.5 w-32 rounded-md leading-tight bg-white hover:outline outline-1 outline-slate-200 hover:bg-blue-50 transition-colors">Pesanan</Link>
+                  <Link title="notifikasi" aria-label="Notifikasi" className="px-4 py-1.5 w-32 rounded-md leading-tight bg-white hover:outline outline-1 outline-slate-200 hover:bg-blue-50 transition-colors">Notifikasi</Link>
                   <button type="button" onClick={logout} title="keluar" aria-label="keluar" className="text-left px-4 py-1.5 w-32 rounded-md leading-tight bg-white hover:outline outline-1 outline-red-200 hover:bg-red-100 transition-colors">Keluar</button>
                 </>
               ) : (

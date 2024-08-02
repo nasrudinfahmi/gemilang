@@ -210,7 +210,7 @@ function FormProduct({ values, setValues, handleChangeInput, handleImgProduct, h
             initialValue={defaultDescription}
             init={{
               menubar: 'edit format',
-              plugins: 'codesample lists searchreplace wordcount checklist casechange permanentpen powerpaste markdown',
+              plugins: 'codesample lists searchreplace wordcount',
               toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | align lineheight | numlist bullist indent outdent | removeformat',
               tinycomments_mode: 'embedded',
               tinycomments_author: 'Author name',

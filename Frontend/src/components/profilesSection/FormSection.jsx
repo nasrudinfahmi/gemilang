@@ -1,5 +1,5 @@
 import { updateProfile } from 'firebase/auth'
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { icons } from "../../assets"
 import Input1 from "../input/InputField"
 import { auth } from "../../lib/firebase/init"
@@ -9,10 +9,13 @@ import { deleteFile, saveImg } from "../../services/storage"
 import { getFileNameFromUrl } from "../../utils/utils"
 import Address from '../address/Address'
 import { usePhotoProfile } from '../../hooks/usePhotoProfile'
+import { UserContext } from '../../context/UserContext'
 
 function FormSection() {
   const currentUser = auth.currentUser
   const { setPhotoProfileUrl } = usePhotoProfile()
+  const { user: dataUser } = useContext(UserContext)
+  console.log(dataUser)
 
   const [user, setUser] = useState({
     email: currentUser.email,
@@ -63,15 +66,15 @@ function FormSection() {
 
     await setData(`user/${currentUser.uid}`, {
       idUser: currentUser.uid,
-      idSeller: null,
-      role: 'buyer',
+      idSeller: dataUser ? dataUser.idSeller : null,
+      role: dataUser.role,
       photoURL: imgUrl,
       phoneNumber: user.phoneNumber,
       email: user.email,
       emailVerified: currentUser.emailVerified,
       displayName: user.displayName,
       address,
-      createdAt: new Date(),
+      createdAt: dataUser.createdAt ? dataUser.createdAt : new Date(),
       updatedAt: new Date(),
     })
 
@@ -98,7 +101,7 @@ function FormSection() {
   }
 
   useEffect(() => {
-    const fetchUser = async () => {
+    (async function fetchUser() {
       const user = await readData('user', currentUser.uid)
 
       setAddress(user.address)
@@ -109,9 +112,7 @@ function FormSection() {
         photoURL: user.photoURL || icons.defaultAvatar,
         email: user.email
       })
-    }
-
-    fetchUser()
+    })()
   }, [currentUser])
 
   return (

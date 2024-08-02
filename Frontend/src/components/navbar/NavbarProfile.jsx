@@ -42,6 +42,7 @@ function NavbarProfile({ title, icon }) {
               height={24}
               alt="Photo Profile"
               src={photoProfile}
+              className='rounded-full overflow-hidden'
             />
           </button>
         </div>
