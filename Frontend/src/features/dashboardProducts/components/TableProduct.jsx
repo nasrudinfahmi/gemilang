@@ -5,14 +5,15 @@ import { getFileNameFromUrl } from '../../../utils/utils';
 import { deleteData } from '../../../services/firestore';
 import { confirmToast } from '../../../lib/sweetalert2/init';
 import Swal from 'sweetalert2';
+import { Link } from 'react-router-dom';
 
 function TableProduct({ value, datas, setProductEdit }) {
   const [data, setData] = useState(datas)
 
   useEffect(() => {
     if (value) {
-      setData(prev => {
-        return prev.filter(data => data.productName.toLocaleLowerCase().includes(value.toLocaleLowerCase().trim()))
+      setData(() => {
+        return datas.filter(data => data.productName.toLocaleLowerCase().includes(value.toLocaleLowerCase().trim()))
       })
     } else {
       setData(datas)
@@ -76,7 +77,7 @@ function TableProduct({ value, datas, setProductEdit }) {
               </td>
               <td className="py-2 px-4 border-b ">
                 <div className='flex justify-evenly items-center gap-2'>
-                  <button type="button" title="Lihat" className='px-3 py-1 rounded-md bg-green-300 hover:bg-green-500'>Lihat</button>
+                  <Link to={`/product/${product.idProduct}`} type="button" title="Lihat" className='px-3 py-1 rounded-md bg-green-300 hover:bg-green-500'>Lihat</Link>
                   <button type="button" title="Edit" className='px-3 py-1 rounded-md bg-orange-300 hover:bg-orange-500' onClick={() => setProductEdit(product)}>Edit</button>
                   <button type="button" title="Hapus" className='px-3 py-1 rounded-md bg-red-400 hover:bg-red-600' onClick={() => handleDelete(product)}>Hapus</button>
                 </div>
