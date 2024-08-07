@@ -12,6 +12,7 @@ import SellerRegisterPage from './pages/SellerRegisterPage'
 import DetailProductPage from './pages/DetailProductPage'
 import NotfoundPage from './pages/NotfoundPage'
 import CartPage from './pages/CartPage'
+import Notif from './services/Notif'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,6 +39,9 @@ const router = createBrowserRouter(
       </Route>
       <Route Component={ProtectedRoute}>
         <Route path='cart' Component={CartPage} />
+      </Route>
+      <Route Component={ProtectedRoute}>
+        <Route path='/notif' Component={Notif} />
       </Route>
     </>
   )

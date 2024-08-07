@@ -1,7 +1,7 @@
 import Aside from "../../components/aside/asideProfile/AsideProfile"
 import Menus from "../../components/aside/asideProfile/Menus"
 import NavbarProfile from "../../components/navbar/NavbarProfile"
-import FormSection from "../../components/profilesSection/FormSection"
+import FormSection from "./components/FormSection"
 import { menusAsideProfile } from "../../constants/constant"
 
 function ProfileFeature() {

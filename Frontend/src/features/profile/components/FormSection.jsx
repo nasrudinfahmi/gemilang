@@ -1,21 +1,20 @@
 import { updateProfile } from 'firebase/auth'
 import { useContext, useEffect, useState } from "react"
-import { icons } from "../../assets"
-import Input1 from "../input/InputField"
-import { auth } from "../../lib/firebase/init"
-import { readData, setData } from "../../services/firestore"
-import { loadingToast, Toast } from "../../lib/sweetalert2/init"
-import { deleteFile, saveImg } from "../../services/storage"
-import { getFileNameFromUrl } from "../../utils/utils"
-import Address from '../address/Address'
-import { usePhotoProfile } from '../../hooks/usePhotoProfile'
-import { UserContext } from '../../context/UserContext'
+import { icons } from '../../../assets'
+import Input1 from '../../../components/input/InputField'
+import { auth } from '../../../lib/firebase/init'
+import { readData, setData } from "../../../services/firestore"
+import { loadingToast, Toast } from "../../../lib/sweetalert2/init"
+import { deleteFile, saveImg } from "../../../services/storage"
+import { getFileNameFromUrl } from '../../../utils/utils'
+import Address from '../../../components/address/Address'
+import { usePhotoProfile } from '../../../hooks/usePhotoProfile'
+import { UserContext } from '../../../context/UserContext'
 
 function FormSection() {
   const currentUser = auth.currentUser
   const { setPhotoProfileUrl } = usePhotoProfile()
-  const { user: dataUser } = useContext(UserContext)
-  console.log(dataUser)
+  const { user: dataUser, setUser: setDataUser } = useContext(UserContext)
 
   const [user, setUser] = useState({
     email: currentUser.email,
@@ -64,7 +63,7 @@ function FormSection() {
       urlToDelete: currentUser.photoURL,
     })
 
-    await setData(`user/${currentUser.uid}`, {
+    const newDataUser = {
       idUser: currentUser.uid,
       idSeller: dataUser ? dataUser.idSeller : null,
       role: dataUser.role,
@@ -76,7 +75,9 @@ function FormSection() {
       address,
       createdAt: dataUser.createdAt ? dataUser.createdAt : new Date(),
       updatedAt: new Date(),
-    })
+    }
+
+    await setData(`user/${currentUser.uid}`, newDataUser)
 
     await updateProfile(auth.currentUser, {
       displayName: user.displayName,
@@ -93,6 +94,7 @@ function FormSection() {
     }
 
     setPhotoProfileUrl(imgUrl)
+    setDataUser(newDataUser)
 
     Toast.fire({
       icon: 'success',
@@ -105,6 +107,7 @@ function FormSection() {
       const user = await readData('user', currentUser.uid)
 
       setAddress(user.address)
+      setDataUser(user)
 
       setUser({
         displayName: user.displayName,
@@ -113,7 +116,7 @@ function FormSection() {
         email: user.email
       })
     })()
-  }, [currentUser])
+  }, [currentUser, setDataUser])
 
   return (
     <section className="w-full lg:w-3/4 xl:w-2/3 flex flex-col gap-6 mt-8 px-6 sm:pl-12 md:pl-72 py-2 transition-transform">

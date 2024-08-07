@@ -129,6 +129,22 @@ async function getCarts(idUser) {
   }
 }
 
+async function deleteCarts(idUser) {
+  try {
+    const cartRef = collection(db, "carts");
+    const q = query(cartRef, where("idUser", "==", idUser));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) throw new Error("Carts Tidak ditemukan!");
+
+    const deletePromises = querySnapshot.docs.map((doc) => deleteDoc(doc.ref));
+
+    await Promise.all(deletePromises);
+  } catch (error) {
+    console.error("Error deleting carts: ", error.message);
+  }
+}
+
 export {
   readData,
   readDatas,
@@ -138,4 +154,5 @@ export {
   deleteData,
   getCartProduct,
   getCarts,
+  deleteCarts,
 };

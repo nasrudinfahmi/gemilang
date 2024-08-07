@@ -54,7 +54,7 @@ function CartFeature() {
       <header>
         <Navbar />
       </header>
-      <main className={`padding-inline pb-9 ${carts.length == 0 && 'bg-stone-50'}`}>
+      <main className={`${carts.length == 0 && 'bg-stone-50'}`}>
         <MainSect
           carts={carts}
           setCarts={setCarts}
