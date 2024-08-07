@@ -3,7 +3,7 @@ import CartNotfound from './CartNotfound'
 import { generateRandomId, IDRformatter } from '../../../utils/utils'
 import { Link, useNavigate } from 'react-router-dom'
 import { icons } from '../../../assets'
-import { deleteData, setData } from '../../../services/firestore'
+import { deleteCarts, deleteData, setData } from '../../../services/firestore'
 import { useState } from 'react'
 import { auth } from '../../../lib/firebase/init'
 import { useUser } from '../../../hooks/useUser'
@@ -276,7 +276,9 @@ function MainSect({ carts, orderSummary, setCarts, setOrderSummary }) {
             paymentMethod: result.payment_type
           }
 
-          await setData(`/orders/${orders.idOrder}`, newDataTransaction)
+          await Promise.all([setData(`/orders/${orders.idOrder}`, newDataTransaction),
+          deleteCarts(user.idUser)])
+
           Toast.fire({
             icon: "success",
             title: "Pembayaran Berhasil"
