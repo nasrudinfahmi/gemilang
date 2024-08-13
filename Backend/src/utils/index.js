@@ -72,9 +72,11 @@ function generateDataMidtrans({
   };
 
   dataMidtrans.item_details = products.map((product) => {
+    const productName = product.product?.productName || product.productName;
+
     return {
       id: product.idProduct,
-      name: product.product.productName,
+      name: productName,
       quantity: product.quantity,
       price: product.product.price,
       url: `${FRONT_END_URL}/${product.idProduct}`,
