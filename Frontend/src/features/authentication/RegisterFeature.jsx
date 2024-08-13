@@ -15,9 +15,8 @@ function RegisterFeature() {
     try {
       e.preventDefault()
       setLoading(true)
-      const user = await register(email, password)
+      await register(email, password)
       setLoading(false)
-      console.log(user)
 
       setError("")
 

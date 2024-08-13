@@ -6,24 +6,27 @@ import { AsideProvider } from "./context/AsideContext"
 import { PhotoProfileProvider } from "./context/PhotoProfileContext"
 import { SellerProvider } from "./context/SellerContext"
 import { UserProvider } from "./context/UserContext"
+import { HelmetProvider } from 'react-helmet-async';
 
 function App() {
   const queryClient = new QueryClient()
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <UserProvider>
-          <AsideProvider>
-            <PhotoProfileProvider>
-              <SellerProvider>
-                <RouterProvider router={router} />
-              </SellerProvider>
-            </PhotoProfileProvider>
-          </AsideProvider>
-        </UserProvider>
-      </AuthProvider>
-    </QueryClientProvider>
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <UserProvider>
+            <AsideProvider>
+              <PhotoProfileProvider>
+                <SellerProvider>
+                  <RouterProvider router={router} />
+                </SellerProvider>
+              </PhotoProfileProvider>
+            </AsideProvider>
+          </UserProvider>
+        </AuthProvider>
+      </QueryClientProvider>
+    </HelmetProvider>
   )
 }
 

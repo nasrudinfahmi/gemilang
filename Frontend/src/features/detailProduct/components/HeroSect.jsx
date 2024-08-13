@@ -3,13 +3,18 @@ import parse from 'html-react-parser';
 import { generateRandomId, IDRformatter } from '../../../utils/utils';
 import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../../context/UserContext';
-import { getCartProduct, readData, setData } from '../../../services/firestore';
+import { deleteData, getCartProduct, readData, setData } from '../../../services/firestore';
 import { auth } from '../../../lib/firebase/init';
 import { Toast } from '../../../lib/sweetalert2/init';
+import { payment } from '../../../services/payment';
+import useSnap from '../../../hooks/useSnap';
+import { useNavigate } from 'react-router-dom';
 
 function HeroSect({ product }) {
   const { user, setUser } = useContext(UserContext)
   const [existCart, setExistCart] = useState()
+  const { snap } = useSnap()
+  const navigate = useNavigate()
 
   useEffect(() => {
     (async function fetchUser() {
@@ -51,7 +56,6 @@ function HeroSect({ product }) {
         updatedAt: new Date(),
       }
 
-      console.log(cart)
       await setData(`carts/${idCart}`, cart)
 
       Toast.fire({
@@ -60,6 +64,93 @@ function HeroSect({ product }) {
       })
     } catch (error) {
       console.log(error.message)
+    }
+  }
+
+  const handleBuy = async () => {
+    try {
+      const idOrder = 'tsx-' + generateRandomId();
+
+      const orderSummary = {
+        subtotal: product.price,
+        discount: 11000,
+        shipping: 19000,
+        tax: 2000,
+        total: (Number(product.price) + 19000 + 2000) - 11000,
+      }
+
+      let orders = {
+        idOrder,
+        idUser: auth.currentUser.uid,
+        user: user,
+        status: 'pending',
+        grossAmount: orderSummary.total,
+        paymentMethod: null,
+        products: [{
+          idProduct: product.idProduct,
+          quantity: 1,
+          product,
+        }],
+        createdAt: new Date(),
+      }
+
+      const paymentResponse = await payment({
+        transactionDetails: {
+          orderId: idOrder,
+          grossAmount: orderSummary.total,
+        },
+        customerDetails: user,
+        products: [
+          {
+            idProduct: product.idProduct,
+            quantity: 1,
+            product,
+          }
+        ],
+        serviceFee: {
+          discount: orderSummary.discount,
+          shipping: orderSummary.shipping,
+          tax: orderSummary.tax
+        }
+      })
+
+      if (paymentResponse.success) {
+        await setData(`/orders/${idOrder}`, orders)
+
+        const snapToken = paymentResponse.trxToken.token
+        snap.pay(snapToken, {
+          // embedId: 'snap-container',
+          onSuccess: async function (result) {
+
+            const newDataTransaction = {
+              ...orders,
+              status: 'paid',
+              paymentMethod: result.payment_type
+            }
+
+            await setData(`/orders/${orders.idOrder}`, newDataTransaction)
+
+            Toast.fire({
+              icon: "success",
+              title: "Pembayaran Berhasil"
+            })
+
+            navigate("/notif", { replace: true })
+          },
+          onPending: function () {
+            deleteData(`/orders/${orders.idOrder}`)
+          },
+          onError: function () {
+            deleteData(`/orders/${orders.idOrder}`)
+          },
+          onClose: function () {
+            deleteData(`/orders/${orders.idOrder}`)
+          }
+        });
+      }
+
+    } catch (error) {
+      console.log("Gagal melakukan pembelian", error.message)
     }
   }
 
@@ -90,7 +181,7 @@ function HeroSect({ product }) {
 
         <div className="mt-5 space-x-4 *:w-1/4">
           <button type="button" className="border rounded-md py-1.5 bg-emerald-100 hover:bg-emerald-200" onClick={handleAddToCart}>Keranjang</button>
-          <button type="button" className="border rounded-md py-1.5 bg-teal-200 hover:bg-teal-300">Beli</button>
+          <button type="button" onClick={handleBuy} className="border rounded-md py-1.5 bg-teal-200 hover:bg-teal-300">Beli</button>
         </div>
 
         <div className="text-slate-800 mt-5">

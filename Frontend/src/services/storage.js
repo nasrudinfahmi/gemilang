@@ -26,7 +26,6 @@ async function deleteFile(path, fileName) {
 
     await deleteObject(storageRef);
   } catch (error) {
-    console.log(error);
     throw new Error("Ada Sesuatu yang Salah!");
   }
 }

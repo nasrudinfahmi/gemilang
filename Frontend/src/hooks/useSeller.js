@@ -14,7 +14,6 @@ function useSeller() {
 
       const fetchSeller = async () => {
         try {
-          console.log(user);
           const response = await readData("seller", user.idSeller);
           setSeller(response);
         } catch (error) {
