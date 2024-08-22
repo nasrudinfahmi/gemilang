@@ -6,7 +6,7 @@ import { menusAsideDashboard } from "../../constants/constant"
 import Search from "./components/Search"
 import TableProduct from "./components/TableProduct"
 import { Link } from "react-router-dom"
-import { getProductsBySellerId, readData, setData } from "../../services/firestore"
+import { getProductsBySellerId, readData, setData, updateCartProduct } from "../../services/firestore"
 import { UserContext } from "../../context/UserContext"
 import { auth } from "../../lib/firebase/init"
 import FormProduct from "../../components/form/FormProduct"
@@ -114,7 +114,12 @@ function DashboardProductsFeature() {
         datas.imgs = imgsUrl
       }
 
-      await setData(`products/${productEdit.idProduct}`, datas)
+      const promises = [
+        setData(`products/${productEdit.idProduct}`, datas),
+        updateCartProduct(productEdit.idProduct, datas)
+      ]
+
+      await Promise.all(promises)
       setFile(prev => ({ ...prev, deleteImg: false }))
       Toast.fire({
         icon: 'success',

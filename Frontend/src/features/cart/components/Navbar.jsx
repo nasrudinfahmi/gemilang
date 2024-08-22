@@ -32,9 +32,9 @@ function Navbar() {
           <img src={icons.cart} alt="cart icon" width={28} height={28} />
         </Link>
         <div className="relative">
-          <Link className="peer" title="Profil" aria-label="Profil">
+          <button type="button" className="peer" title="Profil" aria-label="Profil">
             <img src={photoProfile} alt="avatar icon" width={28} height={28} className="rounded-full overflow-hidden" />
-          </Link>
+          </button>
           <div className="hidden peer-focus:flex peer-hover:flex hover:flex flex-col gap-1 h-max absolute -right-4 top-full border bg-white p-3 rounded-lg shadow-lg z-[999]">
             <Link to="/profile/me" title="Profil Saya" aria-label="profil" className="px-4 py-1.5 w-32 rounded-md leading-tight bg-white hover:outline outline-1 outline-slate-200 hover:bg-blue-50 transition-colors">Profil</Link>
             <Link title="Pesanan" aria-label="pesanan" className="px-4 py-1.5 w-32 rounded-md leading-tight bg-white hover:outline outline-1 outline-slate-200 hover:bg-blue-50 transition-colors">Pesanan</Link>

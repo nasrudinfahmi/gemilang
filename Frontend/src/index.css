@@ -43,6 +43,19 @@ input[type="number"]::-webkit-outer-spin-button {
 .text-9xl {
   font-size: 14rem;
 }
+#card-desc div,
+#card-desc span,
+#card-desc p,
+#card-desc b,
+#card-desc i,
+#card-desc ins,
+#card-desc u,
+#card-desc strong {
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  font-style: normal;
+  text-decoration: none;
+}
 @media (max-width: 645px) {
   .text-9xl {
     font-size: 5.75rem;

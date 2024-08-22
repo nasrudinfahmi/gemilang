@@ -20,7 +20,7 @@ function ProtectedRoute() {
 
   if (loading) return <h1>loading ...</h1>
 
-  return isLogin ? <Outlet /> : <Navigate to="/" />
+  return isLogin ? <Outlet /> : <Navigate to="/auth/login" />
 }
 
 export default ProtectedRoute

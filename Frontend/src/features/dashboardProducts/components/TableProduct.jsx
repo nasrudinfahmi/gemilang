@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { useEffect, useState } from 'react';
 import { deleteFile, deleteFiles } from '../../../services/storage';
 import { getFileNameFromUrl } from '../../../utils/utils';
-import { deleteData } from '../../../services/firestore';
+import { deleteCartsByIdProduct, deleteData } from '../../../services/firestore';
 import { confirmToast } from '../../../lib/sweetalert2/init';
 import Swal from 'sweetalert2';
 import { Link } from 'react-router-dom';
@@ -35,9 +35,14 @@ function TableProduct({ value, datas, setProductEdit }) {
       const thumbnailName = getFileNameFromUrl(thumbnailProduct)?.split("/")[1]
       const imgs = product.imgs
 
-      await deleteFile("products", thumbnailName)
-      await deleteFiles("products", imgs)
-      await deleteData(`products/${product.idProduct}`)
+      const deletedPromises = [
+        deleteFile("products", thumbnailName),
+        deleteFiles("products", imgs),
+        deleteData(`products/${product.idProduct}`),
+        deleteCartsByIdProduct(product.idProduct)
+      ]
+
+      await Promise.all(deletedPromises)
 
       setData(prev => {
         const newDatas = prev.filter(data => data.idProduct !== product.idProduct)

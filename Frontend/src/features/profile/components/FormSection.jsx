@@ -22,7 +22,7 @@ function FormSection() {
     phoneNumber: currentUser.phoneNumber || "",
   })
 
-  const [address, setAddress] = useState({})
+  const [address, setAddress] = useState(dataUser?.Address || {})
   const [photoPofile, setPhotoProfile] = useState({ blob: currentUser.photoURL || null })
 
   const handleChangePhotoProfile = (e) => {
@@ -66,14 +66,14 @@ function FormSection() {
     const newDataUser = {
       idUser: currentUser.uid,
       idSeller: dataUser ? dataUser.idSeller : null,
-      role: dataUser.role,
+      role: dataUser && dataUser?.idSeller ? "seller" : "buyer",
       photoURL: imgUrl,
       phoneNumber: user.phoneNumber,
       email: user.email,
       emailVerified: currentUser.emailVerified,
       displayName: user.displayName,
       address,
-      createdAt: dataUser.createdAt ? dataUser.createdAt : new Date(),
+      createdAt: dataUser?.createdAt ? dataUser.createdAt : new Date(),
       updatedAt: new Date(),
     }
 
@@ -104,6 +104,7 @@ function FormSection() {
 
   useEffect(() => {
     (async function fetchUser() {
+      if (dataUser) return;
       const user = await readData('user', currentUser.uid)
 
       setAddress(user.address)
@@ -116,7 +117,7 @@ function FormSection() {
         email: user.email
       })
     })()
-  }, [currentUser, setDataUser])
+  }, [currentUser, setDataUser, dataUser])
 
   return (
     <section className="w-full lg:w-3/4 xl:w-2/3 flex flex-col gap-6 mt-8 px-6 sm:pl-12 md:pl-72 py-2 transition-transform">

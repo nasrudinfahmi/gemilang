@@ -14,6 +14,7 @@ function HeroSect({ product }) {
   const { user, setUser } = useContext(UserContext)
   const [existCart, setExistCart] = useState()
   const { snap } = useSnap()
+  const [isUnlogged, setIsUnlogged] = useState(user ? false : true)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -21,6 +22,7 @@ function HeroSect({ product }) {
       try {
         if (!user) {
           const response = await readData("user", auth.currentUser.uid);
+          if (response) setIsUnlogged(true)
           setUser(response);
         }
 
@@ -38,6 +40,10 @@ function HeroSect({ product }) {
 
   const handleAddToCart = async () => {
     try {
+      console.log(user)
+      console.log(isUnlogged)
+      if (isUnlogged) return navigate("/auth/login")
+
       Toast.fire({
         icon: 'info',
         title: 'Loading ...'
@@ -69,6 +75,8 @@ function HeroSect({ product }) {
 
   const handleBuy = async () => {
     try {
+      if (isUnlogged) return navigate("/auth/login")
+
       const idOrder = 'tsx-' + generateRandomId();
 
       const orderSummary = {

@@ -30,7 +30,9 @@ async function readDatas(coll) {
   try {
     const querySnapshot = await getDocs(collection(db, coll));
 
-    const datas = querySnapshot.map((doc) => {
+    if (querySnapshot.empty) return [];
+
+    const datas = querySnapshot.docs.map((doc) => {
       return { id: doc.id, ...doc.data() };
     });
 
@@ -142,6 +144,73 @@ async function deleteCarts(idUser) {
     await Promise.all(deletePromises);
   } catch (error) {
     console.error("Error deleting carts: ", error.message);
+    throw new Error(error.message);
+  }
+}
+
+async function getProductsByName(productName) {
+  try {
+    const dataProducts = await readDatas("products");
+    if (dataProducts.length === 0) return [];
+
+    const products = dataProducts.filter((product) => {
+      return product.productName
+        ?.toLowerCase()
+        ?.trim()
+        ?.includes(productName.toLowerCase().trim());
+    });
+
+    return products;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
+async function deleteCartsByIdProduct(idProduct) {
+  try {
+    const cartRef = collection(db, "carts");
+    const q = query(cartRef, where("idProduct", "==", idProduct));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) throw new Error("Carts Tidak ditemukan!");
+    const deletePromises = querySnapshot.docs.map((doc) => deleteDoc(doc.ref));
+    await Promise.all(deletePromises);
+  } catch (error) {
+    console.error("Error deleting carts: ", error.message);
+    throw new Error(error.message);
+  }
+}
+
+async function updateCartProduct(idProduct, newDataProduct) {
+  try {
+    const cartRef = collection(db, "carts");
+    const q = query(cartRef, where("idProduct", "==", idProduct));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) throw new Error("Carts Tidak ditemukan!");
+    const updateCarts = querySnapshot.docs.map((doc) => {
+      let cart = {
+        id: doc.id,
+        ...doc.data(),
+      };
+
+      cart.product = newDataProduct;
+      setData(`carts/${cart.id}`, cart);
+    });
+
+    await Promise.all(updateCarts);
+  } catch (error) {
+    console.error("Error update cart product: ", error.message);
+    throw new Error(error.message);
+  }
+}
+
+async function fetchProducts() {
+  try {
+    const products = await readDatas("products");
+    return products;
+  } catch (error) {
+    console.log("Gagal fetch products", error.message);
   }
 }
 
@@ -155,4 +224,8 @@ export {
   getCartProduct,
   getCarts,
   deleteCarts,
+  getProductsByName,
+  deleteCartsByIdProduct,
+  updateCartProduct,
+  fetchProducts,
 };

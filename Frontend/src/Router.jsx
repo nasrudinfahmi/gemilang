@@ -13,12 +13,14 @@ import DetailProductPage from './pages/DetailProductPage'
 import NotfoundPage from './pages/NotfoundPage'
 import CartPage from './pages/CartPage'
 import Notif from './services/Notif'
+import ProductsListPage from './pages/ProductsListPage'
+import { fetchProducts } from './services/firestore'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path='*' Component={NotfoundPage} />
-      <Route path='/' Component={HomePage} />
+      <Route path='/' Component={HomePage} loader={fetchProducts} />
       <Route path='auth' element={<Navigate to="/auth/login" replace />} />
       <Route path='auth'>
         <Route path='login' Component={LoginPage} />
@@ -35,12 +37,11 @@ const router = createBrowserRouter(
           <Route path='dashboard/products/add' Component={AddProductPage} />
         </Route>
       </Route>
-      <Route Component={ProtectedRoute}>
-        <Route path='product/:idProduct' Component={DetailProductPage} />
-      </Route>
+      <Route path='product/:idProduct' Component={DetailProductPage} />
       <Route Component={ProtectedRoute}>
         <Route path='cart' Component={CartPage} />
       </Route>
+      <Route path='products' Component={ProductsListPage} />
       <Route Component={ProtectedRoute}>
         <Route path='/notif' Component={Notif} />
       </Route>

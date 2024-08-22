@@ -1,6 +1,9 @@
+import { useParams } from "react-router-dom"
 import SimpleCard from "../../../components/card/SimpleCard"
 
 function RecomSect() {
+  const { idProduct } = useParams()
+
   return (
     <section className="padding-inline pb-10">
       <h2 className="title2 mb-6 mt-16">Produk serupa</h2>
@@ -8,6 +11,7 @@ function RecomSect() {
         {Array.from({ length: 10 }).map((_, i) => (
           <SimpleCard
             key={i}
+            to={idProduct}
             productName={`produk ${i + 1}`}
             alt={`produk ${i + 1}`}
             price={19000}

@@ -1,11 +1,14 @@
+import { useLoaderData } from "react-router-dom"
 import CardProduct from "../../components/card/CardProduct"
 import SimpleCard from "../../components/card/SimpleCard"
 import Categories from "./categories/Categories"
 import HeroBanner from "./heroBanner/HeroBanner"
-import Navbar from "./navbar/Navbar"
-import Section from "./section/Section"
+import Navbar from "../../components/navbar/NavbarSearch"
+import ProductList from "../../components/productsList/ProductList"
 
 function HomeFeature() {
+  const products = useLoaderData()
+  console.log(products)
   return (
     <>
       <header>
@@ -14,29 +17,52 @@ function HomeFeature() {
       <main className="pb-14">
         <HeroBanner />
         <Categories />
-        <Section title="Promo">
+        <ProductList title="Promo">
           <>
-            {Array.from({ length: 10 }).map((_, index) => (
-              <SimpleCard
-                key={index}
-                productName="Tumbler"
-                price="Rp 121.000"
-                image="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg"
-                alt="Tumbler"
-              />
+            {products && products.slice(0, 11).map((product, i) => (
+              product.productName !== null && (
+                <SimpleCard
+                  key={i}
+                  to={product.idProduct}
+                  productName={product.productName}
+                  price={product.price}
+                  image={product.thumbnailProduct}
+                  alt={product.productName}
+                />
+              )
             ))}
           </>
-        </Section>
-        <Section title="Produk Baru">
-          {Array.from({ length: 10 }).map((_, index) => (
-            <CardProduct key={index} />
+        </ProductList>
+        <ProductList title="Produk Baru">
+          {products && products.map((product, i) => (
+            product.productName !== null && (
+              <CardProduct
+                key={i}
+                to={product.idProduct}
+                productName={product.productName}
+                price={product.price}
+                desc={product.description}
+                img={product.thumbnailProduct}
+                alt={product.productName}
+              />
+            )
           ))}
-        </Section>
-        <Section title="Rekomendasi Produk">
-          {Array.from({ length: 10 }).map((_, index) => (
-            <CardProduct key={index} />
+        </ProductList>
+        <ProductList title="Rekomendasi Produk">
+          {products && products.map((product, i) => (
+            product.productName !== null && (
+              <CardProduct
+                key={i}
+                to={product.idProduct}
+                productName={product.productName}
+                price={product.price}
+                desc={product.description}
+                img={product.thumbnailProduct}
+                alt={product.productName}
+              />
+            )
           ))}
-        </Section>
+        </ProductList>
       </main>
     </>
   )
