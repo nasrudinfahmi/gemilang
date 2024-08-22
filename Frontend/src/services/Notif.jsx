@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react"
 import { useUser } from "../hooks/useUser"
 import { deleteCarts } from "./firestore"
 import { Navigate, useSearchParams } from "react-router-dom"
+import LoadingUi from "../layouts/LoadingUi"
 
 function Notif() {
   const { user, loading: loadingUser } = useUser()
@@ -27,7 +28,7 @@ function Notif() {
   }, [user, query, searchParams])
 
   return loading && loadingUser ?
-    <h1>loading ...</h1> :
+    <LoadingUi /> :
     <Navigate to="/cart" replace />
 }
 

@@ -10,6 +10,7 @@ import { useUser } from '../../../hooks/useUser'
 import useSnap from '../../../hooks/useSnap'
 import { payment } from '../../../services/payment'
 import { Toast } from '../../../lib/sweetalert2/init'
+import LoadingUi from '../../../layouts/LoadingUi'
 
 function MainSect({ carts, orderSummary, setCarts, setOrderSummary }) {
   const [loading, setLoading] = useState(false)
@@ -309,7 +310,7 @@ function MainSect({ carts, orderSummary, setCarts, setOrderSummary }) {
     }
   }
 
-  return userLoading ? <h1>Loading ...</h1> : (
+  return userLoading ? <LoadingUi /> : (
     <>
       {carts.length !== 0 ? (
         processPayment ? (

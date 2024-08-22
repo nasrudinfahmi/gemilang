@@ -8,6 +8,7 @@ import { Toast } from "../../lib/sweetalert2/init";
 import Menus from "../../components/aside/asideProfile/Menus";
 import { menusAsideProfile } from "../../constants/constant";
 import { readData } from "../../services/firestore";
+import LoadingUi from "../../layouts/LoadingUi";
 
 function SellerRegisterFeature() {
   const currentUser = auth.currentUser
@@ -30,7 +31,7 @@ function SellerRegisterFeature() {
     })()
   }, [currentUser, user]);
 
-  if (loading) return <h1>Loading ...</h1>;
+  if (loading) return <LoadingUi />;
 
   if (!user && currentUser && !loading && !isSeller) {
     Toast.fire({

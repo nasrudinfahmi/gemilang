@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { getCarts } from "../../services/firestore"
 import { auth } from "../../lib/firebase/init"
 import MainSect from "./components/MainSect"
+import LoadingUi from "../../layouts/LoadingUi"
 
 function CartFeature() {
   const [loading, setLoading] = useState(true)
@@ -49,7 +50,7 @@ function CartFeature() {
     })()
   }, [])
 
-  return loading ? <h1>Loading ...</h1> : (
+  return loading ? <LoadingUi /> : (
     <>
       <header>
         <Navbar />

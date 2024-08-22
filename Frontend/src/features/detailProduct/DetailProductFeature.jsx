@@ -5,6 +5,7 @@ import RecomSect from "./components/RecomSect"
 import { useEffect, useState } from "react"
 import { readData } from "../../services/firestore"
 import NotfoundPage from "../../pages/NotfoundPage"
+import LoadingUi from "../../layouts/LoadingUi"
 
 function DetailProductFeature() {
   const { idProduct } = useParams()
@@ -25,7 +26,7 @@ function DetailProductFeature() {
   }, [idProduct])
 
   if (!loading && !product) return <NotfoundPage />
-  return loading ? <h1>Loading ...</h1> :
+  return loading ? <LoadingUi /> :
     (
       <>
         <header>

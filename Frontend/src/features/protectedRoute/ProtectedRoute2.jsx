@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { readData } from "../../services/firestore";
 import { auth } from "../../lib/firebase/init";
+import LoadingUi from "../../layouts/LoadingUi";
 
 function ProtectedRoute2() {
   const [isSeller, setIsSeller] = useState(false);
@@ -23,7 +24,7 @@ function ProtectedRoute2() {
     })()
   }, [idUser]);
 
-  if (loading) return <h1>Loading ...</h1>;
+  if (loading) return <LoadingUi />;
 
   return isSeller ? <Outlet /> : <Navigate to="/profile/seller" />;
 }
