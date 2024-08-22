@@ -15,6 +15,7 @@ function DetailProductFeature() {
   useEffect(() => {
     (async function () {
       try {
+        window.scrollTo({ top: 0, behavior: "auto" })
         const resProduct = await readData('products', idProduct)
         setProduct(resProduct)
         setLoading(false)

@@ -15,7 +15,6 @@ import CartPage from './pages/CartPage'
 import Notif from './services/Notif'
 import ProductsListPage from './pages/ProductsListPage'
 import { fetchProducts } from './services/firestore'
-import LoadingUi from './layouts/LoadingUi'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -46,7 +45,6 @@ const router = createBrowserRouter(
       <Route Component={ProtectedRoute}>
         <Route path='/notif' Component={Notif} />
       </Route>
-      <Route path='/loading' Component={LoadingUi} />
     </>
   )
 )
