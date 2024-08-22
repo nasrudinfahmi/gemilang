@@ -8,7 +8,6 @@ import ProductList from "../../components/productsList/ProductList"
 
 function HomeFeature() {
   const products = useLoaderData()
-  console.log(products)
   return (
     <>
       <header>

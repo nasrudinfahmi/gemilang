@@ -38,6 +38,11 @@ function Navbar({ withNavBottom = true, withBackLink = false }) {
   return (
     <nav className="border padding-inline pt-2.5 pb-3 min-[600px]:pt-3 min-[600px]:pb-4">
       <section className="flex justify-between items-center gap-5 min-[600px]:gap-8">
+        {windowWidth < 600 && withBackLink && (
+          <Link to={-1} className='grid outline-slate-400 place-content-center size-8 p-0.5 rounded-full hover:-translate-x-1 hover:outline outline-1 transition-all' title='Kembali' aria-label='Halaman sebelumnya'>
+            <img src={icons.left} alt="kembali" />
+          </Link>
+        )}
         {windowWidth >= 600 && (
           <div className='flex items-center gap-4'>
             {withBackLink && (
