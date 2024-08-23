@@ -9,8 +9,9 @@ import { auth } from '../../../lib/firebase/init'
 import { useUser } from '../../../hooks/useUser'
 import useSnap from '../../../hooks/useSnap'
 import { payment } from '../../../services/payment'
-import { Toast } from '../../../lib/sweetalert2/init'
+import { confirmToast, Toast } from '../../../lib/sweetalert2/init'
 import LoadingUi from '../../../layouts/LoadingUi'
+import Swal from 'sweetalert2'
 
 function MainSect({ carts, orderSummary, setCarts, setOrderSummary }) {
   const [loading, setLoading] = useState(false)
@@ -19,10 +20,14 @@ function MainSect({ carts, orderSummary, setCarts, setOrderSummary }) {
   const [processPayment, setProcessPayment] = useState(false)
   const navigate = useNavigate()
 
-  const handleBtnQty = (e, type) => {
+  const handleBtnQty = (e, type, cart) => {
     if (type !== 'dec' && type !== 'inc') return;
-    if (type === 'dec' && e.quantity == 1) return;
     if (type === 'inc' && e.quantity == 99) return;
+    if (type === 'dec' && e.quantity == 1) {
+      handleDeleteCart(cart)
+        .then()
+      return;
+    }
     setLoading(true)
 
     const newCart = {
@@ -138,8 +143,16 @@ function MainSect({ carts, orderSummary, setCarts, setOrderSummary }) {
     }
   }
 
-  const handleDeleteCart = (cart) => {
+  const handleDeleteCart = async (cart) => {
     try {
+      const confirm = confirmToast({
+        title: "Hapus produk dari keranjang?",
+        confText: "Ya, hapus",
+        cancelText: "Batalkan",
+      })
+      const { isConfirmed } = await Swal.fire(confirm)
+      if (!isConfirmed) return;
+
       setCarts(prev => {
         const newCarts = prev.filter(product => product.idCart !== cart.idCart)
 
@@ -337,11 +350,11 @@ function MainSect({ carts, orderSummary, setCarts, setOrderSummary }) {
                     </div>
                     <p className="my-4 text-green-600 text-lg">{IDRformatter(cart.product.price * cart.quantity)}</p>
                     <div className="border flex items-center justify-center rounded-md overflow-hidden w-max">
-                      <button type="button" className="px-1.5 rounded-l-md" aria-label="kurangi kuantiti" title="Kurangi Kuantiti" onClick={() => handleBtnQty(cart, "dec")} disabled={loading}>
+                      <button type="button" className="px-1.5 rounded-l-md" aria-label="kurangi kuantiti" title="Kurangi Kuantiti" onClick={() => handleBtnQty(cart, "dec", cart)} disabled={loading}>
                         <img src={icons.minus} alt="minus ikon" width={22} height={22} />
                       </button>
                       <input type="number" name="qty" id="qty" value={cart.quantity} onChange={(e) => handleChange(e, cart)} onKeyDown={onKeyDown} onBlur={(e) => onBlur(e, cart)} min={1} max={99} inputMode="numeric" className="text-center border-x outline-none" aria-label="kuantiti" title="kuantiti" pattern="[0-9]*" disabled={loading} />
-                      <button type="button" className="px-1.5 rounded-r-md" aria-label="tambah kuantiti" title="Tambah Kuantiti" onClick={() => handleBtnQty(cart, "inc")} disabled={loading}>
+                      <button type="button" className="px-1.5 rounded-r-md" aria-label="tambah kuantiti" title="Tambah Kuantiti" onClick={() => handleBtnQty(cart, "inc", cart)} disabled={loading}>
                         <img src={icons.plus} alt="plus ikon" width={22} height={22} />
                       </button>
                     </div>
