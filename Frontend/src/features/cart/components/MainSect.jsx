@@ -20,11 +20,10 @@ function MainSect({ carts, orderSummary, setCarts, setOrderSummary }) {
   const navigate = useNavigate()
 
   const handleBtnQty = (e, type) => {
-    setLoading(true)
-
     if (type !== 'dec' && type !== 'inc') return;
     if (type === 'dec' && e.quantity == 1) return;
     if (type === 'inc' && e.quantity == 99) return;
+    setLoading(true)
 
     const newCart = {
       ...e,
