@@ -2,32 +2,33 @@ import PropTypes from 'prop-types'
 import { Link, useLocation } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { readData } from '../../../services/firestore'
-import { auth } from '../../../lib/firebase/init'
 import { useSeller } from '../../../context/SellerContext'
+import { useUser } from '../../../hooks/useUser'
+import LoadingUi from '../../../layouts/LoadingUi'
 
 function Menus({ menus }) {
   const { pathname } = useLocation()
   const [isSeller, setIsSeller] = useState()
+  const { user, loading } = useUser()
   const { setSeller } = useSeller()
 
   useEffect(() => {
     (async function fetch() {
       try {
-        const responseUser = await readData("user", auth.currentUser.uid);
-        const seller = responseUser?.role === 'seller' && !!responseUser?.idSeller
+        const seller = user?.role === 'seller' && !!user?.idSeller
         setIsSeller(seller)
 
         if (seller) {
-          const responseSeller = await readData("seller", responseUser.idSeller);
+          const responseSeller = await readData("seller", user.idSeller);
           setSeller(responseSeller)
         }
       } catch (error) {
         return
       }
     })()
-  }, [setSeller])
+  }, [setSeller, user])
 
-  return (
+  return loading ? <LoadingUi /> : (
     <div className="flex flex-col mt-7 gap-2">
       {menus.map((menu, i) => (
         menu.title !== 'Mulai Jualan' ? (
