@@ -9,7 +9,11 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { db } from "../lib/firebase/init";
+import { auth, db } from "../lib/firebase/init";
+import { deleteFile } from "./storage";
+import { getFileNameFromUrl } from "../utils/utils";
+import { deleteAccountPermanent } from "./authentication";
+import { EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 
 async function readData(coll, docId) {
   try {
@@ -214,6 +218,100 @@ async function fetchProducts() {
   }
 }
 
+async function deleteProductsByIdSeller(idSeller) {
+  try {
+    const productsRef = collection(db, "products");
+    const q = query(productsRef, where("seller.idSeller", "==", idSeller));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) return;
+
+    const images = querySnapshot.docs
+      .map((doc) => {
+        const data = doc.data();
+        const imgs =
+          data.imgs?.length > 0
+            ? data.imgs.map((imgUrl) => getFileNameFromUrl(imgUrl))
+            : [];
+        const thumbnailProduct = getFileNameFromUrl(data.thumbnailProduct);
+
+        return [...imgs, thumbnailProduct];
+      })
+      ?.filter((img) => img)
+      .flat(Infinity);
+
+    const deleteImgsPromises = images.map((img) => {
+      deleteFile("products", img.split("products/")[1]);
+    });
+
+    const deletePromises = querySnapshot.docs.map((doc) => deleteDoc(doc.ref));
+    await Promise.all([deleteImgsPromises, deletePromises]);
+  } catch (error) {
+    console.error("Error deleting products: ", error.message);
+    throw new Error(error.message);
+  }
+}
+
+async function deleteStore(user) {
+  try {
+    const seller = await readData("seller", user.idSeller);
+    if (seller.photoURL) {
+      const photoSeller = getFileNameFromUrl(seller.photoURL);
+      await deleteFile("seller", photoSeller.split("seller/")[1]);
+    }
+    await deleteProductsByIdSeller(user.idSeller);
+    await deleteData(`/seller/${user.idSeller}`);
+  } catch (error) {
+    console.error("Error delete store: ", error.message);
+    throw new Error(error.message);
+  }
+}
+
+async function deleteAccount(user, password) {
+  try {
+    if (!user || !password) return;
+    if (!user && !auth.currentUser) return;
+
+    const credential = EmailAuthProvider.credential(
+      auth.currentUser.email,
+      password
+    );
+
+    const userCreds = await reauthenticateWithCredential(
+      auth.currentUser,
+      credential
+    );
+    if (userCreds) {
+      if (!user && auth.currentUser) {
+        deleteAccountPermanent(password);
+        return;
+      }
+
+      if (user.role === "seller") {
+        await deleteStore(user);
+      }
+
+      const photoProfile = getFileNameFromUrl(user.photoURL);
+      if (photoProfile) {
+        await deleteFile("user", photoProfile.split("user/")[1]);
+      }
+
+      await deleteData(`/user/${user.idUser}`);
+      deleteAccountPermanent(password);
+    }
+  } catch (error) {
+    console.log(error.message);
+    console.log(error.code);
+    if (error.code === "auth/invalid-credential") {
+      throw new Error("Password salah!");
+    }
+    if (error.code === "auth/too-many-requests") {
+      throw new Error("Terlalu banyak mencoba. \nCoba beberapa saat lagi");
+    }
+    throw new Error(error.message);
+  }
+}
+
 export {
   readData,
   readDatas,
@@ -228,4 +326,6 @@ export {
   deleteCartsByIdProduct,
   updateCartProduct,
   fetchProducts,
+  deleteAccount,
+  deleteStore,
 };

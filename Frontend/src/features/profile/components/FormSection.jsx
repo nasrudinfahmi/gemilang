@@ -1,5 +1,5 @@
 import { updateProfile } from 'firebase/auth'
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { icons } from '../../../assets'
 import Input1 from '../../../components/input/InputField'
 import { auth } from '../../../lib/firebase/init'
@@ -9,12 +9,12 @@ import { deleteFile, saveImg } from "../../../services/storage"
 import { getFileNameFromUrl } from '../../../utils/utils'
 import Address from '../../../components/address/Address'
 import { usePhotoProfile } from '../../../hooks/usePhotoProfile'
-import { UserContext } from '../../../context/UserContext'
+import { useUser } from '../../../hooks/useUser'
 
 function FormSection() {
   const currentUser = auth.currentUser
   const { setPhotoProfileUrl } = usePhotoProfile()
-  const { user: dataUser, setUser: setDataUser } = useContext(UserContext)
+  const { user: dataUser, setUser: setDataUser } = useUser()
 
   const [user, setUser] = useState({
     email: currentUser.email,
@@ -102,9 +102,24 @@ function FormSection() {
     })
   }
 
+  // function setFormsDefaultValue({ displayName, phoneNumber }) {
+  //   document.getElementById("name").value = displayName
+  //   document.getElementById("phone").value = phoneNumber
+  // }
+
   useEffect(() => {
     (async function fetchUser() {
-      if (dataUser) return;
+      if (dataUser) {
+        // setFormsDefaultValue(dataUser)
+        setUser({
+          displayName: dataUser.displayName,
+          phoneNumber: dataUser.phoneNumber,
+          photoURL: dataUser.photoURL || icons.defaultAvatar,
+          email: dataUser.email,
+          address: dataUser.address,
+        })
+        return;
+      }
       const user = await readData('user', currentUser.uid)
 
       setAddress(user.address)
@@ -114,7 +129,8 @@ function FormSection() {
         displayName: user.displayName,
         phoneNumber: user.phoneNumber,
         photoURL: user.photoURL || icons.defaultAvatar,
-        email: user.email
+        email: user.email,
+        address: dataUser?.address,
       })
     })()
   }, [currentUser, setDataUser, dataUser])
@@ -160,7 +176,7 @@ function FormSection() {
       <Input1 type="email" id="email" name="email" label="Email" readOnly value={user.email} />
       <Input1 type="tel" id="phone" name="phoneNumber" label="Telepon" value={user.phoneNumber || ""} onChange={handleChangeProfile} />
 
-      <Address address={address} setAddress={setAddress} />
+      <Address address={user?.address || address} setAddress={setAddress} />
 
       <button
         type="button"

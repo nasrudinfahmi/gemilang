@@ -23,7 +23,7 @@ function useUser() {
     }
   }, [setUser, user]);
 
-  return { user, loading };
+  return { user, setUser, loading };
 }
 
 export { useUser };

@@ -42,4 +42,26 @@ const confirmToast = ({ title, text = "", confText, cancelText }) => {
   };
 };
 
-export { Toast, loadingToast, confirmToast };
+const inputToast = async ({
+  title,
+  label,
+  type,
+  confirmBtnText,
+  cancelBtnText,
+}) => {
+  const { value } = await Swal.fire({
+    title,
+    input: type,
+    inputLabel: label || "",
+    showCancelButton: true,
+    confirmButtonText: confirmBtnText,
+    cancelButtonText: cancelBtnText,
+    customClass: {
+      container: "z-[999999]",
+    },
+  });
+  if (value) return value;
+  return null;
+};
+
+export { Toast, loadingToast, confirmToast, inputToast };

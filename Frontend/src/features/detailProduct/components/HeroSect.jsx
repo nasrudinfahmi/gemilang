@@ -40,9 +40,22 @@ function HeroSect({ product }) {
 
   const handleAddToCart = async () => {
     try {
-      console.log(user)
-      console.log(isUnlogged)
-      if (isUnlogged) return navigate("/auth/login")
+      if (!auth.currentUser) {
+        navigate("/auth/login")
+        Toast.fire({
+          icon: "error",
+          title: "Login terlebih dahulu!",
+        })
+        return
+      }
+      if (isUnlogged && auth.currentUser) {
+        navigate("/profile/me")
+        Toast.fire({
+          icon: "error",
+          title: "Lengkapi data dulu!",
+        })
+        return
+      }
 
       Toast.fire({
         icon: 'info',
@@ -75,7 +88,22 @@ function HeroSect({ product }) {
 
   const handleBuy = async () => {
     try {
-      if (isUnlogged) return navigate("/auth/login")
+      if (!auth.currentUser) {
+        navigate("/auth/login")
+        Toast.fire({
+          icon: "error",
+          title: "Login terlebih dahulu!",
+        })
+        return
+      }
+      if (isUnlogged && auth.currentUser) {
+        navigate("/profile/me")
+        Toast.fire({
+          icon: "error",
+          title: "Lengkapi data dulu!",
+        })
+        return
+      }
 
       const idOrder = 'tsx-' + generateRandomId();
 

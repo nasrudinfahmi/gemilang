@@ -7,6 +7,7 @@ import { loadingToast, Toast } from "../../lib/sweetalert2/init"
 import { saveImg } from "../../services/storage"
 import Address from '../address/Address'
 import { generateRandomId } from "../../utils/utils"
+import { useUser } from "../../hooks/useUser"
 
 function SellerRegister() {
   const currentUser = auth.currentUser
@@ -15,6 +16,7 @@ function SellerRegister() {
 
   const [address, setAddress] = useState({})
   const [photoPofile, setPhotoProfile] = useState({ blob: null, file: null })
+  const { user, setUser } = useUser()
 
   const handleChangePhotoProfile = (e) => {
     const blobUrl = URL.createObjectURL(e.target.files[0])
@@ -66,6 +68,7 @@ function SellerRegister() {
     })
 
     await updateData('user', currentUser.uid, { idSeller: id, role: 'seller' })
+    await setUser({ ...user, idSeller: id, role: 'seller' })
 
     Toast.fire({
       icon: 'success',
